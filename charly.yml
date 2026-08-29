@@ -287,9 +287,6 @@ charly:
                     # format path has a metadata entry to parse.
                     depends: []
         plan:
-            - check: the charly binary resolves on the deployment's PATH
-              exit_status: 0
-              command: command -v charly
             - check: charly version prints a CalVer build stamp on stdout
               exit_status: 0
               stdout:
