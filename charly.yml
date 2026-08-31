@@ -1,7 +1,7 @@
 version: 2026.240.1943
 charly:
     candy:
-        version: 2026.162.1430
+        version: 2026.243.0100
         description: |
             The full charly toolchain on a deployment — the on-PATH charly CLI plus its composed VM / encrypted-storage / console-relay stack.
             Full charly toolchain — the CLI binary + the VM stack (virtualization),
@@ -15,9 +15,9 @@ charly:
             path) need NOT bake it — the host copies `charly` in on demand
             (`EnsureCharlyInDeployVenue`; see `/charly-tools:charly`).
         candy:
-            - '@github.com/opencharly/pod-virtualization:v2026.237.458'
-            - '@github.com/opencharly/layer-gocryptfs:v2026.237.457'
-            - '@github.com/opencharly/layer-socat:v2026.235.2057'
+            - '@github.com/opencharly/pod-virtualization:v2026.239.1635'
+            - '@github.com/opencharly/layer-gocryptfs:v2026.239.1626'
+            - '@github.com/opencharly/layer-socat:v2026.240.0229'
             # The four DETECTION-builders (pixi/npm/cargo/aur) are EXTERNAL out-of-process
             # plugins; the candy de-submodule cutover (Phase 4) deleted their in-repo dirs, so
             # they must be PINNED here for the connect path's pass-1 (the project's own candy
