@@ -309,6 +309,10 @@ charly:
               file:
                 file: /usr/bin/virsh
                 exists: true
+            - check: the nerdctl engine binary (the nerdctl engine stack deps) is installed
+              file:
+                file: /usr/bin/nerdctl
+                exists: true
             - check: the qemu system emulator (virtualization candy) is installed
               file:
                 file: /usr/bin/qemu-system-x86_64
