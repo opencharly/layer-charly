@@ -25,10 +25,15 @@ charly:
         # review returned an empty completion).
         #
         # Format suffix: pac/apt/apk pin with `name=VERSION`; rpm/dnf pin with
-        # `name-VERSION` (the `=` form needs the pkgrel). Each format's uninstall
-        # template renders `{{splitFirst . "="}}`, stripping the pin back to the
-        # bare name, so the pin never breaks teardown (`pacman -Rs name=VERSION`
-        # fails with "target not found"; the bare name works).
+        # `name-VERSION` (the `=` form needs the pkgrel). The SAME `.Packages` list
+        # feeds each distro's UNINSTALL template, where every package manager wants
+        # the bare name (`pacman -Rs name=VERSION` fails with "target not found";
+        # `apk del name=VERSION` likewise). The uninstall guard is `{{pkgName .}}`,
+        # REGISTERED in `TemplateFuncs` of `sdk/buildkit/render.go` (merged to
+        # `sdk` `origin/main` as opencharly/sdk#284, 2026-09-25T00:05:01Z) — it
+        # strips a version suffix back to the bare name, so the pin never breaks
+        # teardown. The consumer side (the four `uninstall_template`s in
+        # `charly/charly.yml` rendering `{{pkgName .}}`) is opencharly/charly#652.
         #
         # BUMP these five literals (and only these) to the version the [charly]
         # distro repos serve — the install layer is the ONLY cache-invalidated layer.
@@ -64,7 +69,7 @@ charly:
                 # deb-family via the tailscale apt repo. arch/fedora get tailscale from
                 # their native package's deps instead, so it is deb-family-scoped here.
                 package:
-                    - charly=2026.267.2134
+                    - charly=2026.268.1917
                     - tailscale
                 repo:
                     - name: charly
@@ -79,7 +84,7 @@ charly:
                       components: main
             ubuntu:
                 package:
-                    - charly=2026.267.2134
+                    - charly=2026.268.1917
                     - tailscale
                 repo:
                     - name: charly
@@ -94,14 +99,14 @@ charly:
                       components: main
             fedora:
                 package:
-                    - charly-2026.267.2134
+                    - charly-2026.268.1917
                 repo:
                     - name: charly
                       url: "https://opencharly.github.io/charly-fedora/amd64/"
                       gpgkey: "https://opencharly.github.io/charly-fedora/RPM-GPG-KEY-charly"
             arch:
                 package:
-                    - charly=2026.267.2134
+                    - charly=2026.268.1917
                 repo:
                     - name: charly
                       server: "https://opencharly.github.io/charly-arch/amd64/"
@@ -115,7 +120,7 @@ charly:
                       siglevel: Required DatabaseOptional
             alpine:
                 package:
-                    - charly=2026.267.2134
+                    - charly=2026.268.1917
                 repo:
                     - name: charly
                       url: "https://opencharly.github.io/charly-alpine/amd64/"
