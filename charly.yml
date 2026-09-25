@@ -1,7 +1,7 @@
 version: 2026.261.1747
 charly:
     candy:
-        version: 2026.243.0100
+        version: 2026.268.1917
         description: |
             The full charly toolchain on a deployment — the on-PATH charly CLI plus its composed VM / encrypted-storage / console-relay stack.
             Full charly toolchain — the CLI binary + the VM stack (virtualization),
@@ -40,13 +40,39 @@ charly:
             - '@github.com/opencharly/plugin-example-stepkind/candy/plugin-example-stepkind:v2026.237.1421'
             - '@github.com/opencharly/plugin-example-structkind/candy/plugin-example-structkind:v2026.237.1422'
         distro:
+            # PACKAGE VERSION PIN — every distro installs an EXACT released charly so
+            # the install RUN text carries the version. A version bump CHANGES the
+            # emitted Containerfile line, invalidating exactly this layer while every
+            # layer above stays cached. Without the pin the install line is
+            # `... --needed charly` (version-independent), so BuildKit can never bust
+            # it and a rebuilt upstream package is silently ignored (RCA 2026-09-25:
+            # the githubrunner image baked a stale charly forever, so its welded
+            # plugin-review lacked AI_REVIEW_REASONING_EFFORT/MAX_TOKENS and every
+            # large review returned an empty completion).
+            #
+            # Format suffix: pac/apt/apk pin with `name=VERSION`; rpm/dnf pin with
+            # `name-VERSION` (the `=` form needs the pkgrel). The SAME `.Packages`
+            # list feeds each distro's UNINSTALL template, where every package
+            # manager wants the bare name (`pacman -Rs name=VERSION` and
+            # `apk del name=VERSION` both fail — measured; apt-get/dnf tolerate it,
+            # but must not rely on it). The bare-name guard is the `pkgName`
+            # template func, registered in `TemplateFuncs` of
+            # `sdk/buildkit/render.go`, rendered by candy/plugin-fleet's
+            # `buildkit.RenderTemplate` call at record time. The consumer-side
+            # templates that render `{{pkgName .}}` land in opencharly/charly#667,
+            # which must merge before this pin (a pinned teardown otherwise breaks
+            # on the strict managers).
+            #
+            # BUMP these five literals (and only these) to the version the [charly]
+            # distro repos serve — the install layer is the ONLY cache-invalidated
+            # layer.
             debian:
                 # tailscale is a mandatory charly dep but is NOT in Debian main, so the
                 # .deb (packaging.formats.deb) omits it; the charly candy supplies it for
                 # deb-family via the tailscale apt repo. arch/fedora get tailscale from
                 # their native package's deps instead, so it is deb-family-scoped here.
                 package:
-                    - charly
+                    - charly=2026.268.1917
                     - tailscale
                 repo:
                     - name: charly
@@ -61,7 +87,7 @@ charly:
                       components: main
             ubuntu:
                 package:
-                    - charly
+                    - charly=2026.268.1917
                     - tailscale
                 repo:
                     - name: charly
@@ -76,14 +102,14 @@ charly:
                       components: main
             fedora:
                 package:
-                    - charly
+                    - charly-2026.268.1917
                 repo:
                     - name: charly
                       url: "https://opencharly.github.io/charly-fedora/amd64/"
                       gpgkey: "https://opencharly.github.io/charly-fedora/RPM-GPG-KEY-charly"
             arch:
                 package:
-                    - charly
+                    - charly=2026.268.1917
                 repo:
                     - name: charly
                       server: "https://opencharly.github.io/charly-arch/amd64/"
@@ -97,7 +123,7 @@ charly:
                       siglevel: Required DatabaseOptional
             alpine:
                 package:
-                    - charly
+                    - charly=2026.268.1917
                 repo:
                     - name: charly
                       url: "https://opencharly.github.io/charly-alpine/amd64/"
