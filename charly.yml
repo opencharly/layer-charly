@@ -1,7 +1,7 @@
 version: 2026.261.1747
 charly:
     candy:
-        version: 2026.267.2318
+        version: 2026.268.1917
         description: |
             The full charly toolchain on a deployment — the on-PATH charly CLI plus its composed VM / encrypted-storage / console-relay stack.
             Full charly toolchain — the CLI binary + the VM stack (virtualization),
@@ -27,13 +27,14 @@ charly:
         # Format suffix: pac/apt/apk pin with `name=VERSION`; rpm/dnf pin with
         # `name-VERSION` (the `=` form needs the pkgrel). The SAME `.Packages` list
         # feeds each distro's UNINSTALL template, where every package manager wants
-        # the bare name (`pacman -Rs name=VERSION` fails with "target not found";
-        # `apk del name=VERSION` likewise). The uninstall guard is `{{pkgName .}}`,
-        # REGISTERED in `TemplateFuncs` of `sdk/buildkit/render.go` (merged to
-        # `sdk` `origin/main` as opencharly/sdk#284, 2026-09-25T00:05:01Z) — it
-        # strips a version suffix back to the bare name, so the pin never breaks
-        # teardown. The consumer side (the four `uninstall_template`s in
-        # `charly/charly.yml` rendering `{{pkgName .}}`) is opencharly/charly#652.
+        # the bare name (`pacman -Rs name=VERSION` and `apk del name=VERSION` both
+        # fail — measured; apt-get/dnf tolerate it, but must not rely on it). The
+        # bare-name guard is the `pkgName` template func, REGISTERED in
+        # `TemplateFuncs` of `sdk/buildkit/render.go` (sdk `origin/main` via
+        # opencharly/sdk#284, 2026-09-25T00:05:01Z). Until the consumer-side
+        # templates in `charly/charly.yml` render `{{pkgName .}}` — the change in
+        # opencharly/charly#652 — a pinned teardown breaks on the strict managers,
+        # so #652 must merge with (or before) this pin.
         #
         # BUMP these five literals (and only these) to the version the [charly]
         # distro repos serve — the install layer is the ONLY cache-invalidated layer.
