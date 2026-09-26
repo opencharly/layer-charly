@@ -59,9 +59,9 @@ charly:
             # template func, registered in `TemplateFuncs` of
             # `sdk/buildkit/render.go`, rendered by candy/plugin-fleet's
             # `buildkit.RenderTemplate` call at record time. The consumer-side
-            # templates that render `{{pkgName .}}` land in opencharly/charly#667,
-            # which must merge before this pin (a pinned teardown otherwise breaks
-            # on the strict managers).
+            # templates that render `{{pkgName .}}` landed in opencharly/charly#690
+            # (MERGED, merge 57a66ec1) — the guard this pin depends on, so a pinned
+            # teardown no longer breaks on the strict managers.
             #
             # BUMP these five literals (and only these) to the version the [charly]
             # distro repos serve — the install layer is the ONLY cache-invalidated
