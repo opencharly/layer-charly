@@ -13,9 +13,9 @@ charly:
             path) need NOT bake it — the host copies `charly` in on demand
             (`EnsureCharlyInDeployVenue`; see `/charly-tools:charly`).
         candy:
-            - '@github.com/opencharly/pod-virtualization:v2026.239.1635'
-            - '@github.com/opencharly/layer-gocryptfs:v2026.239.1626'
-            - '@github.com/opencharly/layer-socat:v2026.240.0229'
+            - '@github.com/opencharly/pod-virtualization:v2026.272.0326'
+            - '@github.com/opencharly/layer-gocryptfs:v2026.272.0133'
+            - '@github.com/opencharly/layer-socat:v2026.272.0422'
             # The four DETECTION-builders (pixi/npm/cargo/aur) are EXTERNAL out-of-process
             # plugins; the candy de-submodule cutover (Phase 4) deleted their in-repo dirs, so
             # they must be PINNED here for the connect path's pass-1 (the project's own candy
