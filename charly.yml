@@ -61,16 +61,24 @@ charly:
             # (MERGED, merge 57a66ec1) — the guard this pin depends on, so a pinned
             # teardown no longer breaks on the strict managers.
             #
-            # BUMP these five literals (and only these) to the version the [charly]
-            # distro repos serve — the install layer is the ONLY cache-invalidated
-            # layer.
+            # BUMP these five literals (and only these) to the version EACH literal's
+            # own distro repo serves — the install layer is the ONLY cache-invalidated
+            # layer. Each of those repos publishes ONE rotating artifact set per
+            # dispatch (no retention), so the five literals are only ever equal while
+            # every repo has been republished at the same release. Measured
+            # 2026-10-08T21:05Z against each published index: charly-arch,
+            # charly-fedora, charly-debian and charly-ubuntu serve 2026.279.2144;
+            # charly-alpine still serves 2026.268.1917. A literal is therefore
+            # correct iff ITS OWN repo serves it — forcing alpine to 2026.279.2144
+            # would break the apk install with `error: target not found` exactly as
+            # layer-charly#15 did for the other four.
             debian:
                 # tailscale is a mandatory charly dep but is NOT in Debian main, so the
                 # .deb (packaging.formats.deb) omits it; the charly candy supplies it for
                 # deb-family via the tailscale apt repo. arch/fedora get tailscale from
                 # their native package's deps instead, so it is deb-family-scoped here.
                 package:
-                    - charly=2026.268.1917
+                    - charly=2026.279.2144
                     - tailscale
                 repo:
                     - name: charly
@@ -85,7 +93,7 @@ charly:
                       components: main
             ubuntu:
                 package:
-                    - charly=2026.268.1917
+                    - charly=2026.279.2144
                     - tailscale
                 repo:
                     - name: charly
@@ -100,14 +108,14 @@ charly:
                       components: main
             fedora:
                 package:
-                    - charly-2026.268.1917
+                    - charly-2026.279.2144
                 repo:
                     - name: charly
                       url: "https://opencharly.github.io/charly-fedora/amd64/"
                       gpgkey: "https://opencharly.github.io/charly-fedora/RPM-GPG-KEY-charly"
             arch:
                 package:
-                    - charly=2026.268.1917
+                    - charly=2026.279.2144
                 repo:
                     - name: charly
                       server: "https://opencharly.github.io/charly-arch/amd64/"
@@ -121,6 +129,10 @@ charly:
                       siglevel: Required DatabaseOptional
             alpine:
                 package:
+                    # NOT bumped with the other four: charly-alpine still serves
+                    # 2026.268.1917 (its last publish packaged that release), so this
+                    # literal is the served one. It moves when charly-alpine is
+                    # republished — see the pin-block comment above.
                     - charly=2026.268.1917
                 repo:
                     - name: charly
