@@ -109,9 +109,20 @@ charly:
             ubuntu-26.04:
                 # 26.04 is the org default and it does NOT match the generic `ubuntu:` section's
                 # suite above, which must stay noble for the 24.04 consumers that still resolve
-                # through `ubuntu:` (distro-ubuntu's boxes, plugin-mise). Packages union with
-                # `ubuntu:`, so only the repo override is needed here.
+                # through `ubuntu:` (distro-ubuntu's boxes, plugin-mise).
+                #
+                # BOTH repos are re-declared, and that is the whole point of this section: PACKAGES
+                # union with `ubuntu:`, but REPO lists OVERRIDE - the most specific section wins
+                # outright. Declaring only tailscale here dropped the `charly` repo for 26.04 and
+                # the guest then failed to install the toolchain:
+                #   E: Unable to locate package charly
+                # measured on opencharly/distro-ubuntu#65's VM bed. Keep the two lists in step.
                 repo:
+                    - name: charly
+                      url: "https://opencharly.github.io/charly-ubuntu"
+                      key: "https://opencharly.github.io/charly-ubuntu/charly.gpg"
+                      suite: stable
+                      components: main
                     - name: tailscale
                       url: "https://pkgs.tailscale.com/stable/ubuntu"
                       key: "https://pkgs.tailscale.com/stable/ubuntu/resolute.noarmor.gpg"
