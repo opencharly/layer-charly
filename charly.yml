@@ -106,6 +106,17 @@ charly:
                       key: "https://pkgs.tailscale.com/stable/ubuntu/noble.noarmor.gpg"
                       suite: noble
                       components: main
+            ubuntu-26.04:
+                # 26.04 is the org default and it does NOT match the generic `ubuntu:` section's
+                # suite above, which must stay noble for the 24.04 consumers that still resolve
+                # through `ubuntu:` (distro-ubuntu's boxes, plugin-mise). Packages union with
+                # `ubuntu:`, so only the repo override is needed here.
+                repo:
+                    - name: tailscale
+                      url: "https://pkgs.tailscale.com/stable/ubuntu"
+                      key: "https://pkgs.tailscale.com/stable/ubuntu/resolute.noarmor.gpg"
+                      suite: resolute
+                      components: main
             fedora:
                 package:
                     - charly-2026.279.2144
