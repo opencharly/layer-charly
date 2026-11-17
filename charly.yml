@@ -13,7 +13,7 @@ charly:
             path) need NOT bake it — the host copies `charly` in on demand
             (`EnsureCharlyInDeployVenue`; see `/charly-tools:charly`).
         candy:
-            - '@github.com/opencharly/pod-virtualization:v2026.272.0326'
+            - '@github.com/opencharly/pod-virtualization:v2026.321.0714'
             - '@github.com/opencharly/layer-gocryptfs:v2026.272.0133'
             - '@github.com/opencharly/layer-socat:v2026.272.0422'
             # The four DETECTION-builders (pixi/npm/cargo/aur) are EXTERNAL out-of-process
