@@ -28,7 +28,12 @@ charly:
             # carries no `output` discriminator, and every image that composes a builder-using
             # candy fails to render with "returned no `output` discriminator"
             # (opencharly/charly#1240). Bump them WITH the binary's own pins, never after.
-            - '@github.com/opencharly/plugin-builder-pixi/candy/plugin-builder-pixi:v2026.326.2258'
+            #
+            # The pixi release below ALSO carries the stage's HOME/PIXI_HOME pins
+            # (opencharly/sdk#627): at v2026.326.2258 the emitted pixi stage set neither, so the
+            # environment landed outside the box home and every check reading `<home>/.pixi`
+            # failed in an image that built green.
+            - '@github.com/opencharly/plugin-builder-pixi/candy/plugin-builder-pixi:v2026.327.1705'
             - '@github.com/opencharly/plugin-builder-npm/candy/plugin-builder-npm:v2026.327.0024'
             - '@github.com/opencharly/plugin-builder-cargo/candy/plugin-builder-cargo:v2026.326.2259'
             - '@github.com/opencharly/plugin-builder-aur/candy/plugin-builder-aur:v2026.327.0012'
