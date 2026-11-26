@@ -149,7 +149,7 @@ charly:
                       gpgkey: "https://opencharly.github.io/charly-fedora/RPM-GPG-KEY-charly"
             arch:
                 package:
-                    - charly=2026.326.1922
+                    - charly=2026.328.1515
                 repo:
                     - name: charly
                       server: "https://opencharly.github.io/charly-arch/amd64/"
