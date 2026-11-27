@@ -20,7 +20,7 @@ demand (`EnsureCharlyInDeployVenue`).
 | Layer / candy | `charly` |
 | Binary | `/usr/bin/charly` (native package) |
 | Composes | `pod-virtualization`, `layer-gocryptfs`, `layer-socat` |
-| Packaging metadata | `packaging:` section (`charly generate-packages`, sdk/packagekit) |
+| Packaging metadata | none here — the published package's metadata is owned by `opencharly/charly` (`packaging/charly.yml`, shipped as the `charly-candy-charly.yml` release asset the per-distro repos consume) |
 | Service / port | none of its own |
 
 The per-distro installs are pinned to an exact released charly so the install
@@ -49,9 +49,8 @@ charly doctor
 ## Layout
 
 - `charly.yml` — the candy manifest: the `charly:` candy entity (composed
-  `candy:` deps, per-distro `package:`/`repo:` pins, the `packaging:` metadata,
-  and `plan:` checks) and the embedded `charly-skill:` entity.
-- `test-depends.sh` — the repo's dependency assertion script.
+  `candy:` deps, per-distro `package:`/`repo:` pins, and `plan:` checks) and the
+  embedded `charly-skill:` entity.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
 - `README.md` — this user overview.
 
