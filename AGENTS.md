@@ -3,15 +3,16 @@
 Standalone candy repo for the `charly` layer — the full on-`$PATH` charly
 toolchain. The candy lives in `charly.yml` at the repo root: the `charly:` candy
 entity (composed `candy:` dependencies, the per-distro `package:`/`repo:` pins,
-the `packaging:` metadata, and the `plan:` checks) and the embedded
-`charly-skill:` entity that is projected into the marketplace corpus as
-`/charly-tools:charly`. The `test-depends.sh` script asserts the dependency
-contract.
+and the `plan:` checks) and the embedded `charly-skill:` entity that is
+projected into the marketplace corpus as `/charly-tools:charly`. The native
+package's metadata — including its `formats.archlinux.depends` contract — is
+owned by the canonical source this layer consumes: `opencharly/charly`'s
+`packaging/charly.yml`, published as the `charly-candy-charly.yml` release asset
+and asserted by `charly/packaging_test.go`.
 
 Canonical files:
 
 - `charly.yml` — the `charly:` candy entity and the `charly-skill:` skill entity.
-- `test-depends.sh` — the dependency assertion script.
 - `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
 - `README.md` — user overview only; never agent guidance.
 
@@ -42,7 +43,9 @@ Canonical files:
   or behaviour change not mirrored in the skill leaves the corpus stale.
 - The per-distro `package:` literals are the version pins that bust the install
   layer. Bump them (and only them) to the version the distro repos serve; the
-  `packaging:` section is the single metadata source those repos build from.
+  packaging metadata itself belongs to `opencharly/charly`'s
+  `packaging/charly.yml` (the `charly-candy-charly.yml` release asset), never to
+  this repo.
 - Behaviour claims go in `plan:` as observable `check:` steps.
 
 ## Landing
